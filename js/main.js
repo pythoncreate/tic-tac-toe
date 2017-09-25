@@ -72,19 +72,14 @@
 	}
 
 	//Check to see if there is a winner
-	function arraysEqual(a, b) {
-	  if (a === b) return true;
-	  if (a == null || b == null) return false;
-	  if (a.length != b.length) return false;
-
-	  // If you don't care about the order of the elements inside
-	  // the array, you should sort both arrays here.
-
-	  for (var i = 0; i < a.length; ++i) {
-	    if (a[i] !== b[i]) return false;
-	  }
-	  return true;
+	function arraysEqual(winningValues,playerValues){
+		winningValues.prototype.equals = function() {
+		  if(this.length != playerValues.length) return false;
+		  for(let i=0;i<this.length;i++)
+		    if(this[i]!=playerValues[i]) return false;
+		  return true;
 	}
+}
 
 
 	function checkWinner(){
