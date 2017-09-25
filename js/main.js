@@ -72,12 +72,31 @@
 	}
 
 	//Check to see if there is a winner
+	function arraysEqual(a, b) {
+	  if (a === b) return true;
+	  if (a == null || b == null) return false;
+	  if (a.length != b.length) return false;
+
+	  // If you don't care about the order of the elements inside
+	  // the array, you should sort both arrays here.
+
+	  for (var i = 0; i < a.length; ++i) {
+	    if (a[i] !== b[i]) return false;
+	  }
+	  return true;
+	}
+
+
 	function checkWinner(){
+		isEqual = arraysEqual(winners,player1Selections);
+		console.log(player1Selections);
 		if (move >= 5){
-			if (jQuery.inArray([0,1,2], winners) >=0){
+			if (isEqual){
 				finish.style.visibility = "visible";
 				board.style.visibility = 'hidden';
 				console.log("winner");
+			} else {
+				console.log("no winner");
 			}
 		}
 
@@ -90,24 +109,36 @@
 		  if ((currentPlayer == 0) && ($(this).hasClass('box box-filled-1') || $(this).hasClass('box box-filled-2'))){
 		  	alert("Whoa whoa--no no bad selection kiddo. Try again.");
 		  } else if ((currentPlayer == 0) && ($(this).hasClass('box'))){
+		  	//highlight selected box with a 'O' image 
 		  	$(this).addClass('box-filled-1');
+		  	//increment total player moves
 		  	move ++;
+		  	//push player one's selections to array
 		  	player1Selections.push(($(this).index()));
-		  	console.log(player1Selections);
-		  	console.log(move);
+		  	//set to player two
 			currentPlayer = 1;
+			//set conditions for mouseover events
 			player2Mouseover();
+			//check to see if there is a winner
 			checkWinner();
+			//add active class to player two's image at top of screen
 			$('#player2').addClass('active');
+			//hide active class for player one's image at top of screen
 			$('#player1').removeClass('active');
 		  } else if ((currentPlayer == 1) && ($(this).hasClass('box box-filled-1') || $(this).hasClass('box box-filled-2'))) {
 		  	alert("Whoa whoa--no no bad selection kiddo. Try again.");
 		  } else if ((currentPlayer == 1) && ($(this).hasClass('box'))){
+		  	//highlight selected box with a 'X' image 
 		    $(this).addClass('box-filled-2');
+		    //increment total player moves
 		    move ++;
+		    //set back to first player
 		    currentPlayer = 0;
+		    //set conditions for player one mouseover events
 		    player1Mouseover();
+		    //check for a winner
 		    checkWinner();
+		    //change classes for player one and two
 		    $('#player1').addClass('active');
 			$('#player2').removeClass('active');
 		}
