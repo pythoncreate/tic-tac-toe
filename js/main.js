@@ -40,28 +40,30 @@
 		$('#player1').addClass('active');
 		$('#player2').removeClass('active');
 		names = "<div class='playerNames'><h2 class='playerName player1name'>";
-		names += name.value;
-		names += "</h2><h2 class='playerName player2name'>AI</h2></div>"
-		header.insertAdjacentHTML('afterend', names);
-
+		names += name1.value;
+		names += "</h2><h2 class='playerName player2name'>";
+		names += name2.value;
+		names += "</h2></div>";
+		$('#playerNames').html(names);
 	});
 
 
 	//Starts New Game after a Winner is declared
 	$('#new').click(function(){
-		name.value='';
+		name1.value='';
+		name2.value='';
+		move = 0;
 		board.style.visibility = "hidden";
 		finish.style.visibility = "hidden";
 		start.style.visibility = "visible";
 		player1Selections = [];
 		player2Selections = [];
-		currentPlayer = 0;
 		$boxes.each(function(){
 			$(this).removeClass("box-filled-1 box-filled-2");
 		});
 		$('#player1').removeClass('active');
 		$('#player2').removeClass('active');
-		$('.playerNames').empty();
+		$('#playerNames').empty();
 		// startNew();
 	});
 
@@ -207,23 +209,30 @@
 	function moveGreaterThanFive(){
 	if (move>=5){
 		isWinner = checkWinner();
+		$('#finish').removeClass('screen-win-one screen-win-two');
 		if((isWinner)&&(currentPlayer==0)){
 			board.style.visibility = "hidden";
 			finish.style.visibility = "visible";
 			$('#finish').addClass('screen-win-one');
 			$('.message').text("WINNER");
-	        console.log("winner");
+	        console.log("winner 1");
 		} else if ((isWinner)&&(currentPlayer==1)){
 			board.style.visibility = "hidden";
 			finish.style.visibility = "visible";
 			$('#finish').addClass('screen-win-two');
 			$('.message').text("WINNER");
-	        console.log("winner");
-		} else{
+	        console.log("winner 2");
+		} else if (move == 9){
+			finish.style.visibility = "visible";
+			board.style.visibility = "hidden";
+			$('#finish').addClass('screen-win-tie');
+			$('.message').text("Its a draw");
 			console.log("no winner");
 		}
-	  }
-	}
+
+		}
+	  } 
+	
 	
 });	
 
